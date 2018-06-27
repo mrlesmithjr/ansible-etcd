@@ -1,0 +1,28 @@
+---
+- name: Installing etcd
+  apt:
+    name: "etcd"
+    state: "present"
+  become: true
+
+- name: Configuring etcd
+  template:
+    src: "etc/default/etcd.j2"
+    dest: "/etc/default/etcd"
+    owner: "root"
+    group: "root"
+    mode: "u=rw,g=r,o=r"
+  become: true
+  notify: "restart etcd"
+
+# - name: Configuring etcd systemd
+#   template:
+#     src: "lib/systemd/system/etcd.service.j2"
+#     dest: "/lib/systemd/system/etcd.service"
+#     owner: "root"
+#     group: "root"
+#     mode: "u=rw,g=r,o=r"
+#   become: true
+#   notify:
+#     - "daemon-reload etcd"
+#     - "restart etcd"
