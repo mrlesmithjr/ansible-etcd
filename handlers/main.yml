@@ -1,13 +1,9 @@
 ---
 # handlers file for ansible-etcd
-- name: "daemon-reload etcd"
-  systemd:
-    name: "etcd"
-    daemon_reload: true
-  become: true
 
-- name: "restart etcd"
+- name: restart etcd
   service:
-    name: "etcd"
-    state: "restarted"
+    name: etcd
+    state: restarted
+    enabled: true
   become: true

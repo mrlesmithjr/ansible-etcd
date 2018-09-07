@@ -2,15 +2,5 @@
 # tasks file for ansible-etcd
 - include: set_facts.yml
 
-# - name: Clearing {{ etcd_data_dir }}
-#   file:
-#     path: "{{ etcd_data_dir }}"
-#     state: "absent"
-#   become: true
-#   notify: "restart etcd"
-#   when: >
-#         etcd_clear_data_dir is defined and
-#         etcd_clear_data_dir
-
 - include: debian.yml
   when: ansible_os_family == "Debian"
