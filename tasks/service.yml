@@ -1,0 +1,43 @@
+---
+- name: service | Ensuring etcd Service Is Enabled and Starts On Boot
+  service:
+    name: etcd
+    enabled: true
+  become: true
+
+- name: service | daemon-reload etcd
+  systemd:
+    name: etcd
+    daemon_reload: true
+  become: true
+  when: etcd_configured['changed']
+
+- name: service | Restarting etcd (Master)
+  service:
+    name: etcd
+    state: restarted
+  become: true
+  when: >
+        (etcd_configured['changed'] or
+        etcd_reset_cluster) and
+        inventory_hostname == etcd_cluster_master
+
+- name: service | Waiting For etcd service port
+  wait_for:
+    port: "{{ etcd_peer_port }}"
+    delay: 10
+    host: "{{ hostvars[inventory_hostname]['etcd_cluster_ip'] }}"
+  when: >
+        (etcd_configured['changed'] or
+        etcd_reset_cluster) and
+        inventory_hostname == etcd_cluster_master
+
+- name: service | Restarting etcd (Non-Master)
+  service:
+    name: etcd
+    state: restarted
+  become: true
+  when: >
+        (etcd_configured['changed'] or
+        etcd_reset_cluster) and
+        inventory_hostname != etcd_cluster_master

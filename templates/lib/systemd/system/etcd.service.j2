@@ -1,0 +1,31 @@
+{{ ansible_managed|comment }}
+
+[Unit]
+Description=etcd - highly-available key value store
+Documentation=https://github.com/coreos/etcd
+Documentation=man:etcd
+After=network.target
+Wants=network-online.target
+
+[Service]
+Type=notify
+User=etcd
+PermissionsStartOnly=true
+#ExecStart=/bin/sh -c "GOMAXPROCS=$(nproc) /usr/bin/etcd $DAEMON_ARGS"
+ExecStart=/usr/bin/etcd \
+  --name {{ ansible_hostname }} \
+  --initial-advertise-peer-urls {{ etcd_initial_advertise_peer_urls|join(',') }} \
+  --listen-peer-urls {{ etcd_listen_peer_urls|join(',') }} \
+  --listen-client-urls {{ etcd_listen_client_urls|join(',') }} \
+  --advertise-client-urls {{ etcd_advertise_client_urls|join(',') }} \
+  --initial-cluster-token {{ etcd_initial_cluster_token }} \
+  --initial-cluster {% for host in groups[etcd_cluster_group] %}{{ hostvars[host]['ansible_hostname'] }}={{ etcd_peer_url_scheme }}://{{ hostvars[host]['etcd_cluster_ip'] }}:{{ etcd_peer_port }}{% if not loop.last %},{% endif %}{% endfor %} \
+  --initial-cluster-state {{ etcd_initial_cluster_state }} \
+  --data-dir={{ etcd_data_dir }}
+Restart=on-abnormal
+#RestartSec=10s
+LimitNOFILE=65536
+
+[Install]
+WantedBy=multi-user.target
+Alias=etcd2.service

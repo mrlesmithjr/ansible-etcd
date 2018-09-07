@@ -2,5 +2,10 @@
 # tasks file for ansible-etcd
 - include: set_facts.yml
 
+- include_tasks: reset_cluster.yml
+  when: etcd_reset_cluster
+
 - include: debian.yml
   when: ansible_os_family == "Debian"
+
+- include: service.yml

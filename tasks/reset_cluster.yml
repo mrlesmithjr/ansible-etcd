@@ -1,0 +1,20 @@
+---
+- name: reset_cluster | Stopping etcd Service
+  service:
+    name: etcd
+    state: stopped
+  become: true
+
+- name: reset_cluster | Deleting {{ etcd_data_dir }}
+  file:
+    path: "{{ etcd_data_dir }}"
+    state: absent
+  become: true
+
+- name: reset_cluster | Recreating {{ etcd_data_dir }}
+  file:
+    path: "{{ etcd_data_dir }}"
+    state: directory
+    owner: etcd
+    group: etcd
+  become: true

@@ -5,13 +5,13 @@
     state: present
   become: true
 
-- name: debian | Configuring etcd
+- name: debian | Configuring etcd systemd
   template:
-    src: etc/default/etcd.j2
-    dest: /etc/default/etcd
+    src: lib/systemd/system/etcd.service.j2
+    dest: /lib/systemd/system/etcd.service
     owner: root
     group: root
     mode: u=rw,g=r,o=r
   become: true
-  notify: restart etcd
-
+  register: etcd_configured
+  when: etcd_config
