@@ -1,0 +1,14 @@
+---
+- name: redhat | Installing etcd
+  yum:
+    name: etcd
+    state: present
+  become: true
+  when: ansible_distribution != 'Fedora'
+
+- name: redhat | Installing etcd
+  dnf:
+    name: etcd
+    state: present
+  become: true
+  when: ansible_distribution == 'Fedora'
