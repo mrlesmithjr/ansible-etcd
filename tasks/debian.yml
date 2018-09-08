@@ -4,14 +4,3 @@
     name: etcd
     state: present
   become: true
-
-- name: debian | Configuring etcd systemd
-  template:
-    src: lib/systemd/system/etcd.service.j2
-    dest: /lib/systemd/system/etcd.service
-    owner: root
-    group: root
-    mode: u=rw,g=r,o=r
-  become: true
-  register: etcd_configured
-  when: etcd_config

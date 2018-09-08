@@ -1,4 +1,17 @@
 ---
+- name: service | Configuring etcd systemd
+  template:
+    src: lib/systemd/system/etcd.service.j2
+    dest: /lib/systemd/system/etcd.service
+    owner: root
+    group: root
+    mode: u=rw,g=r,o=r
+  become: true
+  register: etcd_configured
+  when: >
+        ansible_service_mgr == 'systemd' and
+        etcd_config
+
 - name: service | Ensuring etcd Service Is Enabled and Starts On Boot
   service:
     name: etcd
@@ -12,32 +25,11 @@
   become: true
   when: etcd_configured['changed']
 
-- name: service | Restarting etcd (Master)
+- name: service | Restarting etcd
   service:
     name: etcd
     state: restarted
   become: true
   when: >
         (etcd_configured['changed'] or
-        etcd_reset_cluster) and
-        inventory_hostname == etcd_cluster_master
-
-- name: service | Waiting For etcd service port
-  wait_for:
-    port: "{{ etcd_peer_port }}"
-    delay: 10
-    host: "{{ hostvars[inventory_hostname]['etcd_cluster_ip'] }}"
-  when: >
-        (etcd_configured['changed'] or
-        etcd_reset_cluster) and
-        inventory_hostname == etcd_cluster_master
-
-- name: service | Restarting etcd (Non-Master)
-  service:
-    name: etcd
-    state: restarted
-  become: true
-  when: >
-        (etcd_configured['changed'] or
-        etcd_reset_cluster) and
-        inventory_hostname != etcd_cluster_master
+        etcd_reset_cluster)
