@@ -9,8 +9,8 @@
   become: true
   register: etcd_configured
   when: >
-        ansible_service_mgr == 'systemd' and
-        etcd_config
+    ansible_service_mgr == 'systemd' and
+    etcd_config
 
 - name: service | Ensuring etcd Service Is Enabled and Starts On Boot
   service:
@@ -31,5 +31,5 @@
     state: restarted
   become: true
   when: >
-        (etcd_configured['changed'] or
-        etcd_reset_cluster)
+    (etcd_configured['changed'] or
+    etcd_reset_cluster)

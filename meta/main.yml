@@ -1,3 +1,4 @@
+---
 galaxy_info:
   author: Larry Smith Jr.
   description: An [Ansible](https://www.ansible.com) role to install/configure an [etcd - cluster](https://coreos.com/etcd/)
@@ -7,19 +8,23 @@ galaxy_info:
   min_ansible_version: 2.0
 
   platforms:
-  - name: EL
-    versions:
-    - 7
-  - name: Fedora
-    versions:
-    - 27
-    - 28
-  - name: Ubuntu
-    versions:
-    - bionic
-    - xenial
+    - name: EL
+      versions:
+        - 7
+    - name: Fedora
+      versions:
+        - 24
+        - 25
+        - 26
+        - 27
+        - 28
+        - 29
+    - name: Ubuntu
+      versions:
+        - bionic
+        - xenial
 
   galaxy_tags:
-  - clustering
+    - clustering
 
 dependencies: []
