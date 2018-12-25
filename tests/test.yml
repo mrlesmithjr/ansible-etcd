@@ -1,5 +1,7 @@
 ---
 - hosts: localhost
   connection: local
+  vars:
+    etcd_cluster_interface: "{{ ansible_default_ipv4['interface'] }} "
   roles:
     - ansible-etcd
