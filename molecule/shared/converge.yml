@@ -1,0 +1,10 @@
+---
+- name: Converge
+  hosts: all
+  vars:
+    etcd_cluster_interface: "{{ ansible_default_ipv4.interface }}"
+    etcd_config: true
+  tasks:
+    - name: Include ansible-etcd
+      include_role:
+        name: ansible-etcd
