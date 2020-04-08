@@ -18,7 +18,7 @@ etcd_cluster_interface: enp0s8
 etcd_cluster_master: "{{ groups[etcd_cluster_group][0] }}"
 
 # Defines whether or not etcd is configured
-etcd_config: true
+etcd_config: false
 
 # Defines the directory to store cluster data
 etcd_data_dir: /var/lib/etcd
