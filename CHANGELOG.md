@@ -1,3 +1,11 @@
+commit a705d20ce55079c1f91046b0d61625346332c6d7
+Author: Larry Smith Jr <mrlesmithjr@gmail.com>
+Date:   Tue Apr 7 20:54:35 2020 -0400
+
+    Updated testing, etc.
+    
+    Testing is ready for a go
+
 commit f4a59bec483946a6424f06562d33911b10526884
 Author: Larry Smith Jr <mrlesmithjr@gmail.com>
 Date:   Tue Apr 7 20:45:40 2020 -0400
