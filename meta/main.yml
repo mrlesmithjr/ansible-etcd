@@ -1,11 +1,9 @@
 ---
 galaxy_info:
   author: Larry Smith Jr.
-  description: An [Ansible](https://www.ansible.com) role to install/configure an [etcd - cluster](https://coreos.com/etcd/)
-
+  description: Ansible role to install/configure etcd
   license: MIT
-
-  min_ansible_version: 2.0
+  min_ansible_version: 2.8
 
   platforms:
     - name: EL
